@@ -37,26 +37,37 @@ class Table extends React.Component {
   }
 
   rndCarte() {
+
+    // on séléctionne des carte au hazard pour le player 
+
     arrayLength = + this.state.playerCardList.length;
 
     rndNumTemp = Math.floor(Math.random() * 53);
 
-    if (rndNumTemp > 52) { rndNumTemp = rndNumTemp - 10 } else if (rndNumTemp < 1) { rndNumTemp = rndNumTemp + 10 }
+    if (rndNumTemp > 52) { rndNumTemp = rndNumTemp - 10 }
+
+    else if (rndNumTemp < 1) { rndNumTemp = rndNumTemp + 10 }
 
     rndCarteTemp = cardArray[rndNumTemp - 1];
 
     return rndCarteTemp
   }
 
+
   onClickStop = () => {
 
     const cardSelectedDealer = this.rndCarte()
+    // on met a jour la première carte du Dealer
 
     const cardSelectedDealer2 = this.rndCarte()
+    // on met a jour la dexsième carte du Dealer
 
     const valueCarteDealer = this.transformCardIntoInt(cardSelectedDealer.split("")[0])
 
     const valueCarteDealer2 = this.transformCardIntoInt(cardSelectedDealer2.split("")[0])
+
+    // on récupère la valeur des cartes qui vaut 10 avec la fonction transdormCardIntoInt 
+    // et on les positionne une à coté de l'autre avec .split
 
     const cardsDealer = [cardSelectedDealer, cardSelectedDealer2]
 
@@ -68,10 +79,7 @@ class Table extends React.Component {
     }
 
     while (dealerValue < 17) {
-      const cardSelectedDealer = this.rndCarte()
-
-      const valueCarteDealer = this.transformCardIntoInt(cardSelectedDealer.split("")[0])
-
+      
       cardsDealer.push(cardSelectedDealer)
 
       dealerValue += valueCarteDealer
@@ -84,6 +92,8 @@ class Table extends React.Component {
 
         break;
       }
+
+      // le palyer gagne si le dealer n'ateint pas les 17 points et s'il dépasse les 21 points
 
     }
 
@@ -101,12 +111,21 @@ class Table extends React.Component {
           nameOfWinner: "Dealer"
         }
 
+        // le Dealer gagne si le player n'ateint pas les 21 points 
+        // et si la somme de ses cartes est inferieur a la somme des cartes du Dealer
+        // sinon c'est le player qui gagne 
+      
       } else {
+
         endGameAndWinner = {
+
           endGame: true,
           nameOfWinner: "Player"
+
         }
+
       }
+
     }
 
     console.log("update state on stop");
@@ -122,12 +141,18 @@ class Table extends React.Component {
   onClickGive = () => {
 
     const cardSelected = this.rndCarte()
+    // on met a jour la carte choisie on cliquant sur le button Give
     const valueCarte = this.transformCardIntoInt(cardSelected.split("")[0])
+    // on les positionne cote à  cote avec .split
     const totalPlayerValue = this.state.counterPlayer + valueCarte
+    // on compte le total des cartes du Player
 
     this.setState({
+
       counterPlayer: totalPlayerValue,
+
       playerCardList: [...this.state.playerCardList, cardSelected]
+      // on met a jour l'array playerCardlist et on fait le total
     })
   }
 
@@ -136,11 +161,13 @@ class Table extends React.Component {
       cardValue = "10"
     }
 
+    // ici ce sont les cartes du jeux qui vaut 10
+
     return parseInt(cardValue)
   }
 
   startGame = () => {
-    
+
     const cardSelected = this.rndCarte()
 
     const valueCarte = this.transformCardIntoInt(cardSelected.split("")[0])
@@ -151,44 +178,80 @@ class Table extends React.Component {
     })
   }
 
+  // on commence on cliquant sur le button start 
+
   render() {
-    
+
     if (this.state.startGame == false) {
+
       return (
         <StartGame startGame={this.startGame} />
+        // on appel le component StartGame avec la props startGame
       )
     } else {
+
       return (<div>
 
         <div className="playGame">
+
           <div style={{ height: '100vh', position: 'relative' }}>
+
             <h1 style={{ color: '#feb236', textAlign: 'center' }}>Black Jack</h1>
+
             <Cartes key={"dealer"} cardList={this.state.dealerCardList} />
+
             {this.state.endGame && (<div className='winlost'>
+
               <h1>Winner is {this.state.nameOfWinner}</h1>
+              
             </div>)}
+
             <Cartes key={"player"} cardList={this.state.playerCardList} />
 
-            <div style={{ bottom: '20px', position: 'absolute' }} className="row col-6 offset-3 flex d-flex justify-content-between">
+            <div style={{ bottom: '20px', position: 'absolute' }} 
+
+            className="row col-6 offset-3 flex d-flex justify-content-between">
+
               <div className="d-grid gap-2">
+
                 <Button
+
                   onClick={this.onClickGive}
+
                   classe="btn btn-outline-warning btn-lg rounded-pill"
+
                   color="white"
+
                   bcolor="#0d6efd"
+
                   name="Give"
+
                 />
+
               </div>
+
               <div>
+
               </div>
+
               <div className="d-grid gap-2">
+
                 <Button
+
                   onClick={this.onClickStop}
+
                   classe="btn btn-outline-warning btn-lg rounded-pill"
+
                   color="white"
+
                   bcolor="#dc3545"
+
                   name="Stop"
+
+                  //  on affiche les buttons Give et Stop et les cartes on appelant 
+                  // les components Cartes et Button
                 />
+
               </div>
 
             </div>
