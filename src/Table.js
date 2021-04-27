@@ -3,7 +3,7 @@ import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from './componant/Button.jsx'
 import Cartes from "./views/Cartes";
-import Game from './componant/Game.jsx'
+import StartGame from './componant/StartGame.jsx'
 
 const cardArray = [
   "KS", "QS", "JS", "AS", "2S", "3S", "4S", "5S", "6S", "7S", "8S", "9S", "0S",
@@ -19,6 +19,7 @@ const cardArray = [
 let arrayLength = 0
 let rndCarteTemp = "";
 let rndNumTemp = 0;
+
 class Table extends React.Component {
   constructor() {
     super();
@@ -48,10 +49,13 @@ class Table extends React.Component {
   }
 
   onClickStop = () => {
+
     const cardSelectedDealer = this.rndCarte()
+
     const cardSelectedDealer2 = this.rndCarte()
 
     const valueCarteDealer = this.transformCardIntoInt(cardSelectedDealer.split("")[0])
+
     const valueCarteDealer2 = this.transformCardIntoInt(cardSelectedDealer2.split("")[0])
 
     const cardsDealer = [cardSelectedDealer, cardSelectedDealer2]
@@ -65,6 +69,7 @@ class Table extends React.Component {
 
     while (dealerValue < 17) {
       const cardSelectedDealer = this.rndCarte()
+
       const valueCarteDealer = this.transformCardIntoInt(cardSelectedDealer.split("")[0])
 
       cardsDealer.push(cardSelectedDealer)
@@ -79,18 +84,23 @@ class Table extends React.Component {
 
         break;
       }
+
     }
+
     if (dealerValue <= 21) {
       if (this.state.counterPlayer > 21) {
         endGameAndWinner = {
           endGame: true,
           nameOfWinner: "Dealer"
+
         }
+
       } else if (this.state.counterPlayer < dealerValue) {
         endGameAndWinner = {
           endGame: true,
           nameOfWinner: "Dealer"
         }
+
       } else {
         endGameAndWinner = {
           endGame: true,
@@ -110,6 +120,7 @@ class Table extends React.Component {
   }
 
   onClickGive = () => {
+
     const cardSelected = this.rndCarte()
     const valueCarte = this.transformCardIntoInt(cardSelected.split("")[0])
     const totalPlayerValue = this.state.counterPlayer + valueCarte
@@ -129,24 +140,22 @@ class Table extends React.Component {
   }
 
   startGame = () => {
-    const cardSelected = this.rndCarte()
     
+    const cardSelected = this.rndCarte()
 
     const valueCarte = this.transformCardIntoInt(cardSelected.split("")[0])
-    
-
-    
 
     this.setState({
-      
+
       startGame: true
     })
   }
 
   render() {
+    
     if (this.state.startGame == false) {
       return (
-        <Game startGame={this.startGame} />
+        <StartGame startGame={this.startGame} />
       )
     } else {
       return (<div>
@@ -192,4 +201,7 @@ class Table extends React.Component {
 }
 
 export default Table;
+
+
+
 
