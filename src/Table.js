@@ -79,7 +79,7 @@ class Table extends React.Component {
     }
 
     while (dealerValue < 17) {
-      
+
       cardsDealer.push(cardSelectedDealer)
 
       dealerValue += valueCarteDealer
@@ -114,7 +114,7 @@ class Table extends React.Component {
         // le Dealer gagne si le player n'ateint pas les 21 points 
         // et si la somme de ses cartes est inferieur a la somme des cartes du Dealer
         // sinon c'est le player qui gagne 
-      
+
       } else {
 
         endGameAndWinner = {
@@ -180,18 +180,13 @@ class Table extends React.Component {
 
   // on commence on cliquant sur le button start 
 
-  render() {
+  // on fait un render conditionnelle 
 
-    if (this.state.startGame == false) {
+  renderGame() {
 
-      return (
-        <StartGame startGame={this.startGame} />
-        // on appel le component StartGame avec la props startGame
-      )
-    } else {
+    return (
 
-      return (<div>
-
+      <div>
         <div className="playGame">
 
           <div style={{ height: '100vh', position: 'relative' }}>
@@ -203,14 +198,14 @@ class Table extends React.Component {
             {this.state.endGame && (<div className='winlost'>
 
               <h1>Winner is {this.state.nameOfWinner}</h1>
-              
+
             </div>)}
 
             <Cartes key={"player"} cardList={this.state.playerCardList} />
 
-            <div style={{ bottom: '20px', position: 'absolute' }} 
+            <div style={{ bottom: '20px', position: 'absolute' }}
 
-            className="row col-6 offset-3 flex d-flex justify-content-between">
+              className="row col-6 offset-3 flex d-flex justify-content-between">
 
               <div className="d-grid gap-2">
 
@@ -248,8 +243,8 @@ class Table extends React.Component {
 
                   name="Stop"
 
-                  //  on affiche les buttons Give et Stop et les cartes on appelant 
-                  // les components Cartes et Button
+                //  on affiche les buttons Give et Stop et les cartes on appelant 
+                // les components Cartes et Button
                 />
 
               </div>
@@ -257,13 +252,39 @@ class Table extends React.Component {
             </div>
           </div>
         </div>
+
       </div>
+    )
+  }
+
+
+  render() {
+
+    if (this.state.startGame == false) {
+
+      return (
+        
+        <StartGame startGame={this.startGame} />
+        // on appel le component StartGame avec la props startGame
+      )
+
+    } else {
+
+      return (
+        <div>
+
+          {this.renderGame()}
+
+        </div>
       )
     }
   }
 }
 
 export default Table;
+
+
+
 
 
 
